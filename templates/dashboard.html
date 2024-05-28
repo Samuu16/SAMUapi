@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/static/js/index.js"></script>
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <link rel="stylesheet" href="/static/css/responsive.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+</head>
+<body>
+    
+  <!-- Header -->
+  <header> 
+    <div class="logosec" style="float: left;"> 
+      <div class="logo">Fuel Management System</div> 
+    </div> 
+
+    <div class="searchbar"> 
+      <input type="text" placeholder="Search"> 
+      <div class="searchbtn"> 
+        <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png" class="icn srchicn" alt="search-icon"> 
+      </div> 
+    </div> 
+
+    <div class="message"> 
+      Welcome! <b>Name: </b> {{user.name }} <b>Email: </b> {{user.email }}    
+    </div> 
+
+    <div class="menuicn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header> 
+
+  <div class="main-container"> 
+    <div class="navcontainer"> 
+      <nav class="nav"> 
+        <div class="nav-upper-options"> 
+          <div class="nav-option option1"> 
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png" class="nav-img" alt="dashboard"> 
+            <h5>Dashboard</h5> 
+          </div> 
+
+          <div class="option2 nav-option"> 
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/9.png" class="nav-img" alt="vehicles"> 
+            <h4>Vehicles</h4> 
+          </div> 
+
+          <div class="nav-option option3"> 
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png" class="nav-img" alt="fuel report"> 
+            <h4>Fuel Report</h4> 
+          </div> 
+
+          <div class="nav-option option4"> 
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/6.png" class="nav-img" alt="institution"> 
+            <h4>Institution</h4> 
+          </div> 
+
+          <div class="nav-option option5"> 
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183323/10.png" class="nav-img" alt="profile"> 
+            <h4>Profile</h4> 
+          </div> 
+
+          <div class="nav-option option6"> 
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png" class="nav-img" alt="settings"> 
+            <h4>Settings</h4> 
+          </div> 
+
+          <div class="nav-option logout"> 
+            <a href="/logout" class="button2">Logout</a>
+          </div> 
+        </div> 
+      </nav> 
+    </div> 
+
+    <div class="main"> 
+      <div class="searchbar2"> 
+        <input type="text" name="" id="" placeholder="Search"> 
+        <div class="searchbtn"> 
+          <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png" class="icn srchicn" alt="search-button"> 
+        </div> 
+      </div> 
+
+      <div class="box-container"> 
+        <div class="box box1"> 
+          <div class="text"> 
+            <h2 class="topic-heading" id="devices_logged">{{ devices_logged }}</h2> 
+            <h2 class="topic">Device Entries Logged</h2> 
+          </div> 
+          <img src="/static/imgs/sensor.png" alt="Views"> 
+        </div> 
+
+        <div class="box box2"> 
+          <div class="text"> 
+            <h2 class="topic-heading" id="active_devices">{{ active_devices }}</h2> 
+            <h2 class="topic">Active Devices</h2> 
+          </div> 
+          <img src="/static/imgs/car.png" alt="likes"> 
+        </div>
+
+        <div class="box box3"> 
+          <div class="text"> 
+            <h2 class="topic-heading">320</h2> 
+            <h2 class="topic">Comments</h2> 
+          </div> 
+          <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png" alt="comments"> 
+        </div> 
+
+        <div class="box box4"> 
+          <div class="text"> 
+            <h2 class="topic-heading">70</h2> 
+            <h2 class="topic">Published</h2> 
+          </div> 
+          <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published"> 
+        </div> 
+      </div> 
+
+      <!-- Include jQuery -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        // Fetch and update the count of device entries logged
+        $.get("/api/device_entries_logged", function(data) {
+          $("#devices_logged").text(data.device_entries_logged);
+        });
+
+        // Fetch and update the count of active devices
+        $.get("/api/no_of_devices_active", function(data) {
+          $("#active_devices").text(data.no_of_devices_active);
+        });
+      </script>
+      
+      <div class="report-container"> 
+        <div class="report-header"> 
+          <h1 class="recent-Articles">Recent Activity</h1> 
+        </div>
+        <br>
+        <div>
+          <h2>Fuel Consumption Line Chart</h2>
+          <canvas id="sensorChart" width="400" height="200"></canvas>
+          <input type="date" id="datePicker" title="Select Date">
+          <button id="filterByDateBtn" data-type="date">Filter by Date</button>
+          <select id="monthSelect" title="Select Month">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+          </select>
+          <button id="filterByMonthBtn">Filter by Month</button>
+
+          <script>
+            let sensorChart = null;
+
+            // Function to fetch data from the API
+            async function fetchData() {
+              const response = await fetch('/api/sensor_data');
+              const data = await response.json();
+              return data;
+            }
+
+            // Function to create the line chart
+            async function createChart() {
+              const data = await fetchData();
+
+              // Destroy existing chart instance if it exists
+              if (sensorChart) {
+                sensorChart.destroy();
+              }
+
+              var ctx = $('#sensorChart')[0].getContext('2d');
+              sensorChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                  labels: data.labels,
+                  datasets: [{
+                    label: 'Sensor Data',
+                    data: data.sensorData,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                  }, {
+                    label: 'Volume Liters',
+                    data: data.volumeLiters,
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  scales: {
+                    y: {                       beginAtZero: true
+                    }
+                  }
+                }
+              });
+            }
+            
+            // Function to filter data by date
+            async function filterByDate() {
+              const selectedDate = $('#datePicker').val();
+              const data = await fetchData();
+
+              const index = data.labels.findIndex(date => date === selectedDate);
+              if (index !== -1) {
+                const filteredLabels = data.labels.slice(index);
+                const filteredSensorData = data.sensorData.slice(index);
+                const filteredVolumeLiters = data.volumeLiters.slice(index);
+
+                // Update the chart with the filtered data
+                sensorChart.data.labels = filteredLabels;
+                sensorChart.data.datasets[0].data = filteredSensorData;
+                sensorChart.data.datasets[1].data = filteredVolumeLiters;
+                sensorChart.update();
+              } else {
+                alert("Data not found for selected date!");
+              }
+            }
+
+            // Function to filter data by month
+            async function filterByMonth() {
+              const selectedMonth = parseInt($('#monthSelect').val());
+              const data = await fetchData();
+              const monthData = [];
+              for (let i = 0; i < data.labels.length; i++) {
+                const date = new Date(data.labels[i]);
+                if (date.getMonth() === selectedMonth) {
+                  monthData.push({
+                    label: data.labels[i],
+                    sensorValue: data.sensorData[i],
+                    volumeValue: data.volumeLiters[i]
+                  });
+                }
+              }
+              if (monthData.length > 0) {
+                const labels = monthData.map(item => item.label);
+                const sensorData = monthData.map(item => item.sensorValue);
+                const volumeLiters = monthData.map(item => item.volumeValue);
+
+                // Update the chart with the filtered data
+                sensorChart.data.labels = labels;
+                sensorChart.data.datasets[0].data = sensorData;
+                sensorChart.data.datasets[1].data = volumeLiters;
+                sensorChart.update();
+              } else {
+                alert("Data not found for selected month!");
+              }
+            }
+
+            // Event listeners for the buttons using jQuery
+            $('#filterByDateBtn').on('click', filterByDate);
+            $('#filterByMonthBtn').on('click', filterByMonth);
+
+            // Call createChart function to render the chart
+            createChart();
+          </script>
+        </div>
+        
+        <br>
+        <h2>Sensor Data Receiver</h2>
+
+        <div class="table-responsive">
+          <div id="seachtab">
+            <form action="{{ url_for('search_sensor_data') }}" method="GET">
+              <input type="text" name="query" placeholder="Search sensor data...">
+              <button type="submit">Search</button>
+            </form>
+          </div>
+
+          <div id="filtertab" class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Filter
+            </button>
+            <div class="dropdown-menu" aria-labelledby="filterDropdown">
+              <a class="dropdown-item" href="{{ url_for('dashboard', filter='latest') }}">Latest Entries</a>
+              <a class="dropdown-item" href="{{ url_for('dashboard', filter='oldest') }}">Oldest Entries</a>
+            </div>
+          </div>
+
+          {% if filter_option == 'latest' %}
+          <p>Displaying the latest entries</p>
+          {% elif filter_option == 'oldest' %}
+          <p>Displaying the oldest entries</p>
+          {% endif %}
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Full Address</th>
+                <th>Sensor Data</th>
+                <th>Volume (Liters)</th>
+                <th>IMEI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data_point in sense_data %}
+              <tr>
+                <td>{{ data_point.date }}</td>
+                <td>{{ data_point.full_addr }}</td>
+                <td>{{ data_point.sensor_data }}</td>
+                <td>{{ data_point.volume_liters }}</td>
+                <td>{{ data_point.imei }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div class="pagination-container">
+            <div class="pagination">
+              {% if pagination.has_prev %}
+              <a href="{{ url_for('search_sensor_data', query=request.args.get('query'), page=pagination.prev_num) }}"><button type="button">Previous</button></a>
+              {% endif %}
+              Page {{ pagination.page }} of {{ pagination.pages }}
+              {% if pagination.has_next %}
+              <a href="{{ url_for('search_sensor_data', query=request.args.get('query'), page=pagination.next_num) }}"><button type="button">Next</button></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="report-header"> 
+          <h1 class="recent-Articles">Recent Articles</h1> 
+          <button class="view">View All</button> 
+        </div> 
+      </div> 
+    </div> 
+  </div>
+
+  <script src="/static/js/index.js"></script> 
+</body> 
+</html>
+
